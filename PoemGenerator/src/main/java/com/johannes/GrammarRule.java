@@ -1,11 +1,16 @@
 package com.johannes;
 
-import java.util.List;
 
 public interface GrammarRule {
 
-	String getName();
+	public String getName();
 
-	List<? extends Word> getWords();
+	public void addWord(Word word);
+	
+	public int countWords();
+	
+	public int countRuleReferences();
+	
+	public int countKeywords();
 
 }
