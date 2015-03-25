@@ -1,6 +1,7 @@
-package com.johannes;
+package com.johannes.grammar;
 
 public class Word {
+	
 	
 	private String value;
 	
@@ -16,6 +17,15 @@ public class Word {
 		return value.startsWith("$");
 	}
 	
+	public String getValue() {
+		if(this.isRuleReference()) {
+			int endIndex = value.indexOf(">");
+			return value.substring(1, endIndex);
+		} else { 
+			return value;
+		}
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

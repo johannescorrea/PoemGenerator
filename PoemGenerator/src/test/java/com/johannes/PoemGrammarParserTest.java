@@ -1,15 +1,18 @@
 package com.johannes;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import com.johannes.grammar.GrammarRule;
+import com.johannes.grammar.exceptions.InvalidGrammarRuleDefinition;
 
 public class PoemGrammarParserTest {
 
-	String ruleDefinition = "RULE: word1|word2 <RULE>|<RULE>|$KEYWORD";
+	String ruleDefinition = "RULE: word1|word2|word3|word4 <RULE>|<RULE>|$KEYWORD";
 	private PoemGrammarParser parser;
 	
 	@Before
@@ -23,31 +26,54 @@ public class PoemGrammarParserTest {
 
 	@Test
 	public void ruleShouldHaveName() {
-		
-		GrammarRule rule = parser.parseRule("RULE: word1|word2");
+		GrammarRule rule = parser.parseRule("RULE: word1|word2|word3|word4");
 		assertEquals("RULE", rule.getName());
 	}
 	
 	@Test
-	public void ruleShouldContainsTwoWords() {
-		GrammarRule rule = parser.parseRule(ruleDefinition);
-		assertEquals(2, rule.countWords());
+	public void ruleShouldHaveOneStep() {
+		GrammarRule rule = parser.parseRule("RULE: word1|word2|word3|word4");
+		assertEquals(1, rule.getStepsCount());
 	}
 	
 	@Test
-	public void ruleShouldContainsTwoReferenceRules() {
-		GrammarRule rule = parser.parseRule(ruleDefinition);
-		assertEquals(2, rule.countRuleReferences());
+	public void ruleShouldHaveFiveSteps() {
+		GrammarRule rule = parser.parseRule("POEM: <LINE> <LINE> <LINE> <LINE> <LINE>");
+		assertEquals(5, rule.getStepsCount());
 	}
 	
 	@Test
-	public void ruleShouldContainsOneKeyword() {
+	public void ruleShouldHaveTwoSteps() {
 		GrammarRule rule = parser.parseRule(ruleDefinition);
-		assertEquals(1, rule.countKeywords());
+		assertEquals(2, rule.getStepsCount());
 	}
 	
-	@Ignore
+	@Test(expected=InvalidGrammarRuleDefinition.class)
+	public void ruleParsingShouldFailIfNoSteps() {
+		GrammarRule rule = parser.parseRule("RULE: ");
+		
+	}
+
+	@Test
 	public void grammarShouldContainSevenRules() {
+		Grammar grammar = parser.parseGrammar(ClassLoader.getSystemResourceAsStream("testGRammar.txt"));
+		assertEquals(7, grammar.countRules());
+	}
+	
+	@Test
+	public void textShouldContainFiveLines() {
+		Grammar grammar = parser.parseGrammar(ClassLoader.getSystemResourceAsStream("emptyLinesGrammar.txt"));
+		String text = grammar.generateText("POEM");
+		assertEquals(5, StringUtils.countMatches(text, System.lineSeparator()));
+	}
+	
+	@Test
+	public void textShouldContainLinesAndWords() {
+		Grammar grammar = parser.parseGrammar(ClassLoader.getSystemResourceAsStream("testGRammar.txt"));
+		String text = grammar.generateText("POEM");
+		System.out.println(text);
+		assertEquals(5, StringUtils.countMatches(text, System.lineSeparator()));
+		
 	}
 
 }
