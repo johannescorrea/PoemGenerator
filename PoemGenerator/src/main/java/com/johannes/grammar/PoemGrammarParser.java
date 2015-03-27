@@ -1,15 +1,15 @@
-package com.johannes;
+package com.johannes.grammar;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import com.johannes.grammar.GrammarRule;
-import com.johannes.grammar.GrammarRuleBuilder;
 
 public class PoemGrammarParser {
 
-	public GrammarRule parseRule(String ruleDefinition) {
+	GrammarRule parseRule(String ruleDefinition) {
 		return GrammarRuleBuilder.buildGrammarRule(ruleDefinition);
 	}
 
@@ -27,6 +27,15 @@ public class PoemGrammarParser {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException("Error parsing grammar", e);
+		}
+	}
+	
+	public Grammar parseGrammar(String fileName) {
+		try {
+			return parseGrammar(new FileInputStream(fileName));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
 		}
 	}
 

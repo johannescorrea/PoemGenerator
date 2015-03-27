@@ -11,9 +11,13 @@ public abstract class AbstractGrammarStep implements GrammarStep {
 	
 	protected AbstractGrammarStep(String stepDefinition) {
 		words = new ArrayList<Word>();
+		processStepDefinition(stepDefinition);
+	}
+
+	protected void processStepDefinition(String stepDefinition) {
 		StringTokenizer tokens = new StringTokenizer(stepDefinition, "|");
 		while (tokens.hasMoreTokens()) {
-			addWord(new Word(tokens.nextToken()));
+			addWord(Word.createWord(tokens.nextToken()));
 		}
 	}
 	

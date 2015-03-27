@@ -3,6 +3,8 @@ package com.johannes.grammar;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 class GrammarRuleImpl implements GrammarRule {
 	
 	private String name;
@@ -26,7 +28,7 @@ class GrammarRuleImpl implements GrammarRule {
 		for (GrammarStep grammarStep : steps) {
 			String stepText = grammarStep.processStep();
 			builder.append(stepText);
-			if(!System.lineSeparator().equals(stepText)) {
+			if(!stepText.endsWith(System.lineSeparator())) {
 				builder.append(" ");
 			}
 		}

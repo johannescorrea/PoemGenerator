@@ -1,8 +1,6 @@
-package com.johannes;
+package com.johannes.grammar;
 
 import java.util.List;
-
-import com.johannes.grammar.GrammarRule;
 
 public interface Grammar {
 

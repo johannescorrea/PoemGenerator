@@ -2,9 +2,11 @@ package com.johannes.grammar;
 
 import java.util.Collections;
 
-public class WordsListStep extends AbstractGrammarStep {
+class WordsListStep extends AbstractGrammarStep {
+	
+	private String previousWord;
 
-	protected WordsListStep(String stepDefinition) {
+	WordsListStep(String stepDefinition) {
 		super(stepDefinition);
 		// TODO Auto-generated constructor stub
 	}
@@ -12,7 +14,13 @@ public class WordsListStep extends AbstractGrammarStep {
 	public String processStep() {
 		// TODO Auto-generated method stub
 		Collections.shuffle(getWords());
-		return getWords().get(0).toString();
+		String selectedWord = getWords().get(0).toString();
+		if(selectedWord.equals(previousWord)) {
+			return processStep();
+		} else {
+			previousWord = selectedWord;
+			return selectedWord;
+		}
 	}
 	
 }

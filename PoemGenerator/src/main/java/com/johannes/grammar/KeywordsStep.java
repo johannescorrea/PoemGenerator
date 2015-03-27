@@ -1,15 +1,30 @@
 package com.johannes.grammar;
 
 import java.util.Collections;
+import java.util.StringTokenizer;
 
-import com.johannes.GrammarImpl;
+import com.johannes.grammar.exceptions.InvalidGrammarRuleDefinition;
 import com.johannes.grammar.exceptions.UndefinedKeywordException;
 
-public class KeywordsStep extends AbstractGrammarStep {
-	
-	protected KeywordsStep(String stepDefinition) {
+class KeywordsStep extends AbstractGrammarStep {
+
+	KeywordsStep(String stepDefinition) {
 		super(stepDefinition);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void processStepDefinition(String stepDefinition) {
+		StringTokenizer tokens = new StringTokenizer(stepDefinition, "|");
+		while (tokens.hasMoreTokens()) {
+			String wordValue = tokens.nextToken();
+			Word word = Word.createWord(wordValue);
+			if (word.isKeyword() || word.isRuleReference()) {
+				addWord(word);
+			} else {
+				throw new InvalidGrammarRuleDefinition(
+						"Plain words not allowed in keywords section");
+			}
+		}
 	}
 
 	private final static String WORD_ENDLINE = "$LINEBREAK";
@@ -18,29 +33,39 @@ public class KeywordsStep extends AbstractGrammarStep {
 	private final static String ENDLINE_STR = System.lineSeparator();
 
 	public String processStep() {
-		// TODO Auto-generated method stub
-		Collections.shuffle(getWords());
-		Word selectWord = getWords().get(0);
-		if(selectWord.isKeyword()) {
+		Word selectWord = null;
+		if (getWordsCount() > 1) {
+			Collections.shuffle(getWords());
+			// int position = (int)Math.floor(Math.random()*getWords().size());
+		}
+
+		selectWord = getWords().get(0);
+
+		if (selectWord.isKeyword()) {
 			return processKeyword(selectWord);
 		} else {
 			return processRuleReference(selectWord);
 		}
 	}
-	
+
 	private String processRuleReference(Word selectWord) {
+		Boolean includeTrace = Boolean.valueOf(System.getProperty(
+				"includeGrammarTrace", "FALSE"));
 		
-		return GrammarImpl.getInstance().generateText(selectWord.getValue());
+		StringBuilder b = new StringBuilder();
+		b.append(includeTrace?selectWord.getValue()+":":"");
+		b.append(GrammarImpl.getInstance().generateText(selectWord.getValue()));
+		return b.toString();
 	}
 
 	private String processKeyword(Word word) {
-		if(WORD_END.equals(word.getValue())) {
+		if (WORD_END.equals(word.getValue())) {
 			return END_STR;
 		} else if (WORD_ENDLINE.equals(word.getValue())) {
 			return ENDLINE_STR;
 		} else {
 			throw new UndefinedKeywordException(word.getValue());
 		}
- 	}
+	}
 
 }

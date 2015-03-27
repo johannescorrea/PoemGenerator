@@ -1,8 +1,9 @@
-package com.johannes;
+package com.johannes.grammar;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import com.johannes.grammar.GrammarRule;

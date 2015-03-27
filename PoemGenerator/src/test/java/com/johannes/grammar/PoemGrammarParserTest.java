@@ -1,4 +1,4 @@
-package com.johannes;
+package com.johannes.grammar;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.johannes.grammar.GrammarRule;
+import com.johannes.grammar.exceptions.IllegalWordDefinition;
 import com.johannes.grammar.exceptions.InvalidGrammarRuleDefinition;
 
 public class PoemGrammarParserTest {
@@ -30,6 +31,12 @@ public class PoemGrammarParserTest {
 		assertEquals("RULE", rule.getName());
 	}
 	
+	@Test(expected = InvalidGrammarRuleDefinition.class)
+	public void shouldFailIfRuleHasNoName() {
+		GrammarRule rule = parser.parseRule(": word1|word2|word3|word4");
+		assertEquals("RULE", rule.getName());
+	}
+	
 	@Test
 	public void ruleShouldHaveOneStep() {
 		GrammarRule rule = parser.parseRule("RULE: word1|word2|word3|word4");
@@ -48,9 +55,19 @@ public class PoemGrammarParserTest {
 		assertEquals(2, rule.getStepsCount());
 	}
 	
+	@Test(expected=IllegalWordDefinition.class)
+	public void shouldNotAllowMalformedReferences() {
+		parser.parseRule("RULE: word1|word2|word3|word4 <RULE>|<RULE1|$END" );
+	}
+	
+	@Test(expected=InvalidGrammarRuleDefinition.class)
+	public void shouldNotAllowPlainWordsInKeywordSection() {
+		parser.parseRule("RULE: word1|word2|word3|word4 <RULE>|<RULE1>|END" );
+	}
+	
 	@Test(expected=InvalidGrammarRuleDefinition.class)
 	public void ruleParsingShouldFailIfNoSteps() {
-		GrammarRule rule = parser.parseRule("RULE: ");
+		parser.parseRule("RULE: ");
 		
 	}
 
@@ -67,13 +84,4 @@ public class PoemGrammarParserTest {
 		assertEquals(5, StringUtils.countMatches(text, System.lineSeparator()));
 	}
 	
-	@Test
-	public void textShouldContainLinesAndWords() {
-		Grammar grammar = parser.parseGrammar(ClassLoader.getSystemResourceAsStream("testGRammar.txt"));
-		String text = grammar.generateText("POEM");
-		System.out.println(text);
-		assertEquals(5, StringUtils.countMatches(text, System.lineSeparator()));
-		
-	}
-
 }

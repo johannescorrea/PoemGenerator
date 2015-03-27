@@ -1,12 +1,10 @@
-package com.johannes;
+package com.johannes.grammar;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.johannes.grammar.GrammarRule;
-
-public class GrammarImpl implements Grammar {
+class GrammarImpl implements Grammar {
 	
 	private LinkedHashMap<String, GrammarRule> rules = new LinkedHashMap<String, GrammarRule>();
 	
@@ -34,7 +32,6 @@ public class GrammarImpl implements Grammar {
 	}
 
 	public String generateText(String ruleName) {
-		// TODO Auto-generated method stub
 		return rules.get(ruleName).processRule();
 	}
 	
