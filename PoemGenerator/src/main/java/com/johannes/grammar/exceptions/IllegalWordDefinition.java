@@ -1,6 +1,6 @@
 package com.johannes.grammar.exceptions;
 
-public class IllegalWordDefinition extends RuntimeException {
+public class IllegalWordDefinition extends GrammarException {
 	
 	/**
 	 * 

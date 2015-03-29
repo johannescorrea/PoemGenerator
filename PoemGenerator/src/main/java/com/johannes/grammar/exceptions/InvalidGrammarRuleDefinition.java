@@ -1,6 +1,6 @@
 package com.johannes.grammar.exceptions;
 
-public class InvalidGrammarRuleDefinition extends RuntimeException {
+public class InvalidGrammarRuleDefinition extends GrammarException {
 	
 	/**
 	 * 

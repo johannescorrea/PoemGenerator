@@ -1,6 +1,6 @@
 package com.johannes.grammar.exceptions;
 
-public class UndefinedKeywordException extends RuntimeException {
+public class UndefinedKeywordException extends GrammarException {
 	
 	/**
 	 * 
