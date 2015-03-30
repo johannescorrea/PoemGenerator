@@ -3,8 +3,6 @@ package com.johannes.grammar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 class GrammarRuleImpl implements GrammarRule {
 	
 	private String name;

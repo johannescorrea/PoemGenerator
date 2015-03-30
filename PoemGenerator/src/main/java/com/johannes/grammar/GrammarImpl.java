@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.johannes.grammar.exceptions.UndefinedRuleReferenceException;
+
 class GrammarImpl implements Grammar {
 	
 	private LinkedHashMap<String, GrammarRule> rules = new LinkedHashMap<String, GrammarRule>();
@@ -32,7 +34,11 @@ class GrammarImpl implements Grammar {
 	}
 
 	public String generateText(String ruleName) {
-		return rules.get(ruleName).processRule();
+		if(rules.containsKey(ruleName)) {
+			return rules.get(ruleName).processRule();
+		} else {
+			throw new UndefinedRuleReferenceException(ruleName);
+		}
 	}
 	
 	public static Grammar getInstance() {

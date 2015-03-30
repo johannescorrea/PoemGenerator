@@ -1,5 +1,5 @@
-LINE:NOUN:fire PREPOSITION:without ADJECTIVE:white ADJECTIVE:black NOUN:wind PREPOSITION:beneath PRONOUN:your ADJECTIVE:dark          
-LINE:NOUN:time VERB:crawls    
-LINE:PREPOSITION:with PRONOUN:his NOUN:willow     
-LINE:PRONOUN:your NOUN:wave PREPOSITION:between NOUN:harvest PREPOSITION:underneath PRONOUN:her ADJECTIVE:black NOUN:pasture PREPOSITION:between ADJECTIVE:dark ADJECTIVE:bright NOUN:thunder              
-LINE:NOUN:brother PREPOSITION:underneath NOUN:wave     
+LINE:PREPOSITION:behind PRONOUN:her NOUN:flower VERB:transcends PREPOSITION:above ADJECTIVE:muddy        
+LINE:PREPOSITION:through ADJECTIVE:white    
+LINE:NOUN:brother   
+LINE:PREPOSITION:outside PRONOUN:my NOUN:rain     
+LINE:NOUN:willow PREPOSITION:above PRONOUN:his NOUN:brother VERB:flies PRONOUN:my NOUN:flavor PREPOSITION:between ADJECTIVE:murky ADJECTIVE:clear            
